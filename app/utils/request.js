@@ -13,8 +13,8 @@ export default function request (url, opts = {}) {
   if (opts.method && opts.method === 'POST') {
     if (!opts.headers) {
       opts.headers = {
-        'Accept': 'application/json, application/xml, text/plain, text/html, *.*',
-        'Content-Type': 'application/x-www-form-urlencoded'
+        'Accept': 'application/json, application/xml, multipart/form-data, text/plain, text/html, *.*',
+        'Content-Type': 'multipart/form-data'
       };
     }
 
