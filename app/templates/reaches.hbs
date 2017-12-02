@@ -1,5 +1,9 @@
 <h2>Reaches</h2>
 {{#each model as |reach|}}
-<p>{{reach.riverName}} - {{reach.name}}</p>
+<p>
+  {{#link-to 'reach' reach.reachId}}
+    {{reach.riverName}} - {{reach.name}}
+  {{/link-to}}
+</p>
 {{/each}}
 {{outlet}}
