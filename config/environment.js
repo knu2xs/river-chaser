@@ -19,6 +19,11 @@ module.exports = function(environment) {
     },
 
     APP: {
+      ARCGIS: {
+        POINTS: {
+          URL: 'https://services5.arcgis.com/12oODIpfxlRR11MF/arcgis/rest/services/rch_cntrds/FeatureServer/0'
+        }
+      }
       // Here you can pass flags/options to your application instance
       // when it is created
     }
