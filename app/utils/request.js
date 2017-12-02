@@ -3,9 +3,7 @@ import fetch from 'fetch';
 import addToken from './add-token';
 import encodeForm from './encode-form';
 
-/**
- * Fetch based request method
- */
+//Fetch based request method
 export default function request (url, opts = {}) {
 
   // if we are POSTing, we need to manually set the content-type because AGO
@@ -35,9 +33,7 @@ export default function request (url, opts = {}) {
   return fetch(url, opts).then(checkStatusAndParseJson);
 }
 
-/**
- * Fetch does not reject on non-200 responses, so we need to check this manually
- */
+//Fetch does not reject on non-200 responses, so we need to check this manually
 function checkStatusAndParseJson (response) {
   let error;
   Ember.debug('Fetch request status: ' + response.status);
