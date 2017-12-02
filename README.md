@@ -1,7 +1,9 @@
-# whitewater-mapping
+# River-Chaser
 
 This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Yes, this is all boilerplate README stuff right now. Get over it, and give me a
+break. I'm one guy who happens to _not_ be a very good web developer, trying to
+figure this all out.
 
 ## Prerequisites
 
