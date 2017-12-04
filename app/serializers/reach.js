@@ -33,13 +33,6 @@ export default DS.JSONAPISerializer.extend({
       data: normalizeRecord(payload.data)
     };
     return this._super(store, primaryModelClass, payload, id, requestType);
-  },
-
-  // normalizeQueryResponse (store, primaryModelClass, payload, id, requestType) {
-  //   payload = {
-  //     data: payload.features.map((record) => normalizeRecord(record))
-  //   };
-  //   return this._super(store, primaryModelClass, payload, id, requestType);
-  // }
+  }
 
 });
