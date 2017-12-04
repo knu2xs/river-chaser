@@ -1,6 +1,9 @@
 import DS from 'ember-data';
+import Ember from 'ember';
 
-const uidField = 'reachId';
+// TODO: move this into either a environment property, or, better yet, intro
+// a sesssion property set at load
+const uidField = 'OBJECTID';
 
 const normalizeRecord = (record) => {
 
@@ -18,18 +21,20 @@ export default DS.JSONAPISerializer.extend({
     return Ember.String.camelize(attr);
   },
 
+  normalizeSingleResponse (store, primaryModelClass, payload, id, requestType) {
+    payload = {
+      data: normalizeRecord(payload.data)
+    };
+    return this._super(store, primaryModelClass, payload, id, requestType);
+  },
+
   normalizeResponse (store, primaryModelClass, payload, id, requestType) {
     payload = {
       data: payload.features.map((record) => normalizeRecord(record))
     };
     return this._super(store, primaryModelClass, payload, id, requestType);
-  },
-
-  normalizeSingleResponse (store, primaryModelClass, payload, id, requestType) {
-    payload = {
-      data: payload.data[0]
-    };
-    return this._super(store, primaryModelClass, payload, id, requestType);
   }
+
+
 
 });

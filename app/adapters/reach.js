@@ -20,22 +20,36 @@ export default DS.JSONAPIAdapter.extend({
     return request(url, {method: 'GET'});
   },
 
+  // find record based on the ID field
   findRecord (store, type, id) {
-    let opts = Ember.$.param({
-      where: `${uidField} = ${id}`,
-      f: 'json',
-      outFields: '*'
-    });
-    let url = `${urlQuery}?${opts}`;
+
+    // build the url
+    let url = `${urlFeatureLayer}/${id}?$f=json`;
+    Ember.debug(url);
+
+    // make the request
     return request(url, {method: 'GET'});
+
   },
 
+  // query the rest endpoint
   query (store, type, query) {
-    opts = {
+
+    // create paramerters object
+    let params = {
       where: query,
-      fields: '*'
+      fields: '*',
+      f: 'json'
     };
-    return makeQueryRequest(opts);
+
+    // using Ember's built in jQuery to parameterize inputs for request
+    params = Ember.$.param(params);
+
+    // combine params onto url, and make request
+    let url = `${urlQuery}?${params}`;
+
+    // pass back the request, thankfully taking care of the promise
+    return request(url, {method: 'GET'});
   }
 
 });
