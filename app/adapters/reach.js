@@ -10,7 +10,7 @@ const uidField = 'reachId';
 
 export default DS.JSONAPIAdapter.extend({
 
-  findAll: function(store) {
+  findAll (store, type, sinceToken, snapshotRecordArray)  {
     let opts = Ember.$.param({
       where: '1=1',
       f: 'json',
@@ -28,6 +28,14 @@ export default DS.JSONAPIAdapter.extend({
     });
     let url = `${urlQuery}?${opts}`;
     return request(url, {method: 'GET'});
+  },
+
+  query (store, type, query) {
+    opts = {
+      where: query,
+      fields: '*'
+    };
+    return makeQueryRequest(opts);
   }
 
 });
