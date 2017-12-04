@@ -6,7 +6,11 @@
 
 <ul>
   {{#link-to 'reach' reach.reachId}}
-    <li>{{reach.riverName}} - {{reach.name}}</li>
+    <li>{{reach.riverName}} - {{reach.name}}
+      {{#if model.riverAlternateName}}
+        ({{model.riverAlternateName}})
+      {{/if}}
+    </li>
   {{/link-to}}
 </ul>
 

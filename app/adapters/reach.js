@@ -24,7 +24,7 @@ export default DS.JSONAPIAdapter.extend({
   findRecord (store, type, id) {
 
     // build the url - this one is unique to Esri - almost like the REST spec!
-    let url = `${urlFeatureLayer}/${id}?$f=json`;
+    let url = `${urlFeatureLayer}/${id}?f=json`;
 
     // make the request
     return request(url, {method: 'GET'});

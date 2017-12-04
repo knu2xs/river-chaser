@@ -1,2 +1,8 @@
-<h2>{{model.riverName}} <small>{{model.name}}</small></h2>
+<h2>{{model.riverName}}
+  <small>{{model.name}}
+  {{#if model.riverAlternateName}}
+    ({{model.riverAlternateName}})
+  {{/if}}
+  </small>
+</h2>
 {{outlet}}
