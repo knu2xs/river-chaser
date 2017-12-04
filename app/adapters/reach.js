@@ -6,7 +6,7 @@ import Ember from 'ember';
 const urlFeatureLayer = ENV.APP.ARCGIS.POINTS.URL;
 const urlQuery = `${urlFeatureLayer}/query`;
 
-const uidField = 'reachId';
+const uidField = 'OBJECTID';
 
 export default DS.JSONAPIAdapter.extend({
 
@@ -23,9 +23,8 @@ export default DS.JSONAPIAdapter.extend({
   // find record based on the ID field
   findRecord (store, type, id) {
 
-    // build the url
+    // build the url - this one is unique to Esri - almost like the REST spec!
     let url = `${urlFeatureLayer}/${id}?$f=json`;
-    Ember.debug(url);
 
     // make the request
     return request(url, {method: 'GET'});
@@ -45,7 +44,7 @@ export default DS.JSONAPIAdapter.extend({
     // using Ember's built in jQuery to parameterize inputs for request
     params = Ember.$.param(params);
 
-    // combine params onto url, and make request
+    // combine params onto url
     let url = `${urlQuery}?${params}`;
 
     // pass back the request, thankfully taking care of the promise

@@ -35,6 +35,4 @@ export default DS.JSONAPISerializer.extend({
     return this._super(store, primaryModelClass, payload, id, requestType);
   }
 
-
-
 });
