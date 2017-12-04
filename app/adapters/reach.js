@@ -37,7 +37,7 @@ export default DS.JSONAPIAdapter.extend({
     // create paramerters object
     let params = {
       where: query,
-      fields: '*',
+      outFields: '*',
       f: 'json'
     };
 

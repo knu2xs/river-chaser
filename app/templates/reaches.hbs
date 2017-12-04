@@ -1,9 +1,15 @@
 <h2>Reaches</h2>
+
+{{input value=search}}
+
 {{#each model as |reach|}}
-<p>
+
+<ul>
   {{#link-to 'reach' reach.reachId}}
-    {{reach.riverName}} - {{reach.name}}
+    <li>{{reach.riverName}} - {{reach.name}}</li>
   {{/link-to}}
-</p>
+</ul>
+
 {{/each}}
+
 {{outlet}}
