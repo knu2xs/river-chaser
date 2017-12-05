@@ -29,12 +29,8 @@ export default DS.JSONAPISerializer.extend({
       payload = {
         data: payload.features.map((record) => normalizeRecord(record))
       };
-    } else if (payload.feature) {
-      payload =  {
-        data: normalizeRecord(payload.feature)
-      };
     } else {
-      Ember.debug('No feature or features key found in response.');
+      Ember.debug('No features key found in response.');
     }
 
     return this._super(store, primaryModelClass, payload, id, requestType);
@@ -43,16 +39,12 @@ export default DS.JSONAPISerializer.extend({
   normalizeSingleResponse (store, primaryModelClass, payload, id, requestType) {
     Ember.debug('Searializer: normalizeSingleResponse');
 
-    if(payload.features){
-      payload = {
-        data: payload.features.map((record) => normalizeRecord(record))
-      };
-    } else if (payload.feature) {
+     if (payload.feature) {
       payload =  {
         data: normalizeRecord(payload.feature)
       };
     } else {
-      Ember.debug('No feature or features key found in response.');
+      Ember.debug('No feature key found in response.');
     }
 
     return this._super(store, primaryModelClass, payload, id, requestType);
