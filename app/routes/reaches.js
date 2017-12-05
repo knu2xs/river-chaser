@@ -1,5 +1,31 @@
 import Route from '@ember/routing/route';
 
+// array of fields being queried
+const fieldArray = ['name', 'riverName', 'riverAlternateName'];
+const reachIdField = 'reachId';
+
+// build a query statement for submitting to an ArcGIS Online
+let createQuery = (queryString) => {
+
+  // trim whitespace, remove non word characters, and split words into array
+  let queryStringArray = queryString.replace(/[\W_]+/g, ' ').split(' ');
+
+  // create all permutations of fields and words into a single array
+  let queryArray = [];
+  for (let i=0; i < fieldArray.length; i++) {
+
+    let wordQueryArray = [];
+    for (let j=0; j < queryStringArray.length; j++){
+      let wordQuery = `${fieldArray[i]} LIKE '%${queryStringArray[j]}%'`
+      wordQueryArray.push(wordQuery);
+    }
+    queryArray.push('(' + wordQueryArray.join(' AND ') + ')');
+  }
+
+  // collapse all the individual field query statements into a single statement
+  return queryArray.join(' OR ');
+}
+
 export default Route.extend({
 
   queryParams: {
@@ -17,7 +43,7 @@ export default Route.extend({
     if (!isNaN(parseFloat(searchString)) && isFinite(searchString)) {
 
       // build a query to search the reachId
-      let query = `reachId LIKE '${searchString}%'`;
+      let query = `${reachIdField} LIKE '${searchString}%'`
       return this.get('store').query('reach', query);
 
     // if however, the search IS a number
@@ -27,8 +53,7 @@ export default Route.extend({
       if (searchString.length >= 3){
 
         // build a query searching in the river and reach name fields
-        let query = `riverName LIKE '%${searchString}%' OR name LIKE '%${searchString}%' OR riverAlternateName LIKE '%${searchString}%'`;
-        return this.get('store').query('reach', query);
+        return this.get('store').query('reach', createQuery(searchString));
 
       } else {
 
