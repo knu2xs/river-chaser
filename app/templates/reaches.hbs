@@ -21,10 +21,10 @@
           <td>
             {{#link-to 'reach' reach.id}}
             {{reach.riverName}} - {{reach.name}}
-            {{#if model.riverAlternateName}}
-              ({{model.riverAlternateName}})
+            {{#if reach.riverAlternateName}}
+              ({{reach.riverAlternateName}})
             {{/if}}
-            {{model.difficulty}}
+            ({{reach.difficulty}})
             {{/link-to}}
           </td>
         </tr>
