@@ -24,12 +24,16 @@ export default Route.extend({
     } else {
 
       // don't actually search unless at least three characters
-      if (searchString.length > 3){
+      if (searchString.length >= 3){
 
         // build a query searching in the river and reach name fields
         let query = `riverName LIKE '%${searchString}%' OR name LIKE '%${searchString}%' OR riverAlternateName LIKE '%${searchString}%'`;
         return this.get('store').query('reach', query);
 
+      } else {
+
+        // unload the search results
+        return this.get('store').unloadAll();
       }
 
     }

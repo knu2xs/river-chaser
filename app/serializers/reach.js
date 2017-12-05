@@ -8,10 +8,10 @@ const uidField = 'OBJECTID';
 const normalizeRecord = (record) => {
 
   return {
-      type: "reaches",
-      id: record.attributes[uidField],
-      "attributes": record.attributes
-    }
+    type: "reaches",
+    id: record.attributes[uidField],
+    "attributes": record.attributes
+  };
 
 };
 
@@ -22,16 +22,23 @@ export default DS.JSONAPISerializer.extend({
   },
 
   normalizeResponse (store, primaryModelClass, payload, id, requestType) {
-    payload = {
-      data: payload.features.map((record) => normalizeRecord(record))
-    };
-    return this._super(store, primaryModelClass, payload, id, requestType);
-  },
 
-  normalizeSingleResponse (store, primaryModelClass, payload, id, requestType) {
-    payload = {
-      data: normalizeRecord(payload.data)
-    };
+    Ember.debug('Searializer: normalizeResponse');
+
+    console.log(payload);
+
+    if(payload.features){
+      payload = {
+        data: payload.features.map((record) => normalizeRecord(record))
+      };
+    } else if (payload.feature) {
+      payload =  {
+        data: normalizeRecord(payload.feature)
+      };
+    } else {
+      Ember.debug('No feature or features key found in response.');
+    }
+
     return this._super(store, primaryModelClass, payload, id, requestType);
   }
 

@@ -1,19 +1,30 @@
-<h2>Reaches</h2>
+<form onsubmit={{action 'preventSubmit'}}>
+   <div class="form-group">
+    {{input
+      value=search
+      class='form-control'
+      placeholder='search by river or reach name'
+      autofocus=true
+    }}
+  </div>
+</form>
 
-{{input value=search}}
+<table class="table">
+  <tbody>
+  {{#each model as |reach|}}
+    <tr>
+      <td>
+        {{#link-to 'reach' reach.id}}
+        {{reach.riverName}} - {{reach.name}}
+        {{#if model.riverAlternateName}}
+          ({{model.riverAlternateName}})
+        {{/if}}
+        {{/link-to}}
+      </td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
 
-{{#each model as |reach|}}
-
-<ul>
-  {{#link-to 'reach' reach.reachId}}
-    <li>{{reach.riverName}} - {{reach.name}}
-      {{#if model.riverAlternateName}}
-        ({{model.riverAlternateName}})
-      {{/if}}
-    </li>
-  {{/link-to}}
-</ul>
-
-{{/each}}
 
 {{outlet}}

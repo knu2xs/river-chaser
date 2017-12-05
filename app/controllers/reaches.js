@@ -3,6 +3,15 @@ import Controller from '@ember/controller';
 export default Controller.extend({
 
   queryParams: ['search'],
-  search: ''
+  search: '',
+
+  actions: {
+
+    preventSubmit(evt) {
+      evt.preventDefault();
+      return false;
+    },
+
+  }
 
 });

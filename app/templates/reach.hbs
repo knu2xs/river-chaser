@@ -1,8 +1,13 @@
-<h2>{{model.riverName}}
+<h2>{{model.riverName}}<br/>
   <small>{{model.name}}
   {{#if model.riverAlternateName}}
     ({{model.riverAlternateName}})
   {{/if}}
   </small>
 </h2>
+{{#bs-nav type="tabs" as |nav|}}
+  {{#nav.item}}{{#nav.link-to "reach.index"}}Overview{{/nav.link-to}}{{/nav.item}}
+  {{#nav.item}}{{#nav.link-to "reach.map"}}Map{{/nav.link-to}}{{/nav.item}}
+  {{#nav.item}}{{#nav.link-to "reach.detail"}}Detail{{/nav.link-to}}{{/nav.item}}
+{{/bs-nav}}
 {{outlet}}

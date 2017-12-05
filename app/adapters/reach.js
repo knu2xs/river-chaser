@@ -6,8 +6,6 @@ import Ember from 'ember';
 const urlFeatureLayer = ENV.APP.ARCGIS.POINTS.URL;
 const urlQuery = `${urlFeatureLayer}/query`;
 
-const uidField = 'OBJECTID';
-
 export default DS.JSONAPIAdapter.extend({
 
   findAll (store, type, sinceToken, snapshotRecordArray)  {
