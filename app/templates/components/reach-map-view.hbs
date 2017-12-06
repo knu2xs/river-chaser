@@ -1,1 +1,53 @@
+<div id="esriReachViewPage">
+
+  <div id="esriReachView">
+
+    <div id="esriContainer">
+
+      {{#if displayControls}}
+
+        <div id="mapControls">
+
+          {{#bs-button-group value=buttonGroupValue type="radio" onChange=(action (mut buttonGroupValue)) as |bg|}}
+
+            <!--TODO: set active status for buttons-->
+            {{#bs-button
+              type="default"
+              value="Basemap"
+              onClick=(action "toggleBasemap")
+            }}
+              <i class="icon-ui-basemap"></i>
+              <span class="d-none d-md-inline">Basemap</span>
+            {{/bs-button}}
+
+            {{#bs-button
+              type="default"
+              value="Layers"
+              onClick=(action "toggleLayerlist")
+            }}
+              <i class="icon-ui-layers"></i>
+              <span class="d-none d-md-inline">Layers</span>
+            {{/bs-button}}
+
+          {{/bs-button-group}}
+
+          {{#bs-button
+            onClick=(action "mapFullscreen")
+          }}
+            <i class="icon-ui-zoom-out-fixed"></i>
+            <span class="d-none d-md-inline">Fullscreen</span>
+          {{/bs-button}}
+
+        </div>
+
+      {{/if}}
+
+      <div id="esriView"></div>
+
+    </div>
+
+  </div>
+
+</div>
+
 {{yield}}

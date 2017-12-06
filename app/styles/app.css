@@ -1,4 +1,66 @@
+/* esri styles */
+@import url('https://js.arcgis.com/4.5/esri/themes/light/main.css');
+
+/* google fonts */
+@import url('https://fonts.googleapis.com/css?family=Eczar|Work+Sans:400,700');
+
+/* calcite */
+@import url('/calcite/css/calcite-icons.css');
+
+h1, h2, h3, h4, h5, h6, nav {
+  font-family: 'Eczar', cursive;;
+}
+
+body {
+  font-family: 'Work Sans', serif;
+  padding-top: 20px;
+  padding-bottom: 20px;
+}
+
 .navbar {
   margin-top: 20px;
   margin-bottom: 20px;
 }
+
+.esri-component, .esri-widget {
+  border-radius: 4px;
+}
+
+.esri-ui-manual-container>.esri-component, .esri-zoom .esri-widget-button:last-child {
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+
+#esriReachViewPage {
+  height: 800px;
+  width: 100%;
+}
+
+#esriReachView {
+  height: 100%;
+  width: 100%;
+}
+
+#esriContainer {
+  height:100%;
+  width: 100%;
+}
+
+#mapControls {
+  position: absolute;
+  padding-top: 15px;
+  padding-left: 15px;
+  z-index: 10;
+}
+
+.esri-ui-top-left {
+  padding-top: 45px;
+}
+
+#esriView {
+  height: 100%;
+  width: 100%;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+

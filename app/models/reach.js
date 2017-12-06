@@ -5,7 +5,7 @@ export default DS.Model.extend({
   name: DS.attr('string'),
   riverName: DS.attr('string'),
   riverAlternateName: DS.attr('string'),
-  error: DS.attr('string'),
+  error: DS.attr('boolean'),
   notes: DS.attr('string'),
   abstract: DS.attr('string'),
   difficulty: DS.attr('string'),

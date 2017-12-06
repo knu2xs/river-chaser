@@ -1,3 +1,9 @@
+{{#if model.error}}
+  <div class="alert alert-danger" role="alert">
+    Error: {{model.notes}}
+  </div>
+{{/if}}
+
 <h2>{{model.riverName}}<br/>
   <small>{{model.name}}
   {{#if model.riverAlternateName}}
@@ -7,11 +13,27 @@
   {{model.difficulty}}
   </small>
 </h2>
+
 {{#bs-nav type='tabs' as |nav|}}
-  {{#nav.item}}{{#nav.link-to 'reach.index'}}Overview{{/nav.link-to}}{{/nav.item}}
-  {{#nav.item}}{{#nav.link-to 'reach.map'}}Map{{/nav.link-to}}{{/nav.item}}
-  {{#unless reach.detail}}
-    {{#nav.item}}{{#nav.link-to 'reach.detail'}}Detail{{/nav.link-to}}{{/nav.item}}
+
+  {{#nav.item}}{{#nav.link-to 'reach.index'}}
+    <i class="icon-ui-question"></i>
+    <span class="d-none d-md-inline">Overview</span>
+  {{/nav.link-to}}{{/nav.item}}
+
+  {{#unless model.error}}
+    {{#nav.item}}{{#nav.link-to 'reach.map'}}
+      <i class="icon-ui-maps"></i>
+      <span class="d-none d-md-inline">Map</span>
+    {{/nav.link-to}}{{/nav.item}}
   {{/unless}}
+
+  {{#unless reach.detail}}
+    {{#nav.item}}{{#nav.link-to 'reach.detail'}}
+      <i class="icon-ui-documentation"></i>
+      <span class="d-none d-md-inline">Detail</span>
+    {{/nav.link-to}}{{/nav.item}}
+  {{/unless}}
+
 {{/bs-nav}}
 {{outlet}}
