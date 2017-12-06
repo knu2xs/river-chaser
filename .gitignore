@@ -24,3 +24,6 @@ package.json.ember-try
 
 # webstorm
 .idea
+
+# apple stuff
+**/*.DS_Store
