@@ -1,34 +1,34 @@
 
 <div class="container">
 
-<header class="header clearfix">
+  <header class="header clearfix">
 
-  {{#bs-navbar
-    type='dark rounded bg-dark'
-    fluid=false
-    collapsed=true
-    onCollapse=(action (mut collapsed) true)
-    onExpand=(action (mut collapsed) false)
-    as |navbar|}}
+    {{#bs-navbar
+      type='dark rounded bg-dark'
+      fluid=false
+      collapsed=true
+      onCollapse=(action (mut collapsed) true)
+      onExpand=(action (mut collapsed) false)
+      as |navbar|}}
 
-    <div class="navbar-header">
-      {{navbar.toggle}}
-      {{#link-to 'index' class='navbar-brand'}}River-Chaser{{/link-to}}
-    </div>
+      <div class="navbar-header">
+        {{navbar.toggle}}
+        {{#link-to 'index' class='navbar-brand'}}River-Chaser{{/link-to}}
+      </div>
 
-    {{#navbar.content}}
-      {{#navbar.nav as |nav|}}
-        {{#nav.item}}{{#nav.link-to 'index'}}Home{{/nav.link-to}}{{/nav.item}}
-        {{#nav.item}}{{#nav.link-to 'reaches'}}Reach Search{{/nav.link-to}}{{/nav.item}}
-      {{/navbar.nav}}
-    {{/navbar.content}}
+      {{#navbar.content}}
+        {{#navbar.nav as |nav|}}
+          {{#nav.item}}{{#nav.link-to 'index'}}Home{{/nav.link-to}}{{/nav.item}}
+          {{#nav.item}}{{#nav.link-to 'reaches'}}Reach Search{{/nav.link-to}}{{/nav.item}}
+        {{/navbar.nav}}
+      {{/navbar.content}}
 
-  {{/bs-navbar}}
+    {{/bs-navbar}}
 
-</header>
+  </header>
 
-<main role="main">
-  {{outlet}}
-</main>
+  <main role="main">
+    {{outlet}}
+  </main>
 
 </div>

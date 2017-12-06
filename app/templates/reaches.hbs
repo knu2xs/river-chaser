@@ -16,15 +16,15 @@
     {{#if model}}
     <table class="table">
       <tbody>
-      {{#each model as |reach|}}
+      {{#each modelSorted as |reach|}}
         <tr>
           <td>
             {{#link-to 'reach' reach.id}}
-            {{reach.riverName}} - {{reach.name}}
-            {{#if reach.riverAlternateName}}
-              ({{reach.riverAlternateName}})
-            {{/if}}
-            ({{reach.difficulty}})
+              {{reach.riverName}} - {{reach.name}}
+              {{#if reach.riverAlternateName}}
+                ({{reach.riverAlternateName}})
+              {{/if}}
+              ({{reach.difficulty}})
             {{/link-to}}
           </td>
         </tr>
@@ -33,19 +33,19 @@
     </table>
 
     {{else}}
-    <p>
-      Start by searching for a river or reach by name. While the words have to be
-      exact matches, the order of the words does not matter.
-    </p>
-    <p>
-      Further, it will try to match with as few as four characters, so sometimes
-      less can be more.
-    </p>
-    <p>
-      Once you have a list to choose from, you can refine your results using the
-      map. More details on each reach are available by clicking on any result
-      in the list.
-    </p>
+      <p>
+        Start by searching for a river or reach by name. While the words have to be
+        exact matches, the order of the words does not matter.
+      </p>
+      <p>
+        Further, it will try to match with as few as four characters, so sometimes
+        less can be more.
+      </p>
+      <p>
+        Once you have a list to choose from, you can refine your results using the
+        map. More details on each reach are available by clicking on any result
+        in the list.
+      </p>
     {{/if}}
 
   </div>
