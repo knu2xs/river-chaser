@@ -1,6 +1,9 @@
 import DS from 'ember-data';
+import { computed } from '@ember/object';
 
 export default DS.Model.extend({
+
+  // properties direct from the returned values
   reachId: DS.attr('string'),
   name: DS.attr('string'),
   riverName: DS.attr('string'),
@@ -13,5 +16,13 @@ export default DS.Model.extend({
   difficultyMaximum: DS.attr('string'),
   difficultyOutlier: DS.attr('string'),
   dateUpdateAw: DS.attr('date'),
-  description: DS.attr('string')
+  description: DS.attr('string'),
+
+  // computed properties
+  description500: computed('description', () => {
+    let short = this.get('description').split(" ").splice(0,500).join(" ");
+    console.log(short);
+    return this.get('description').split(" ").splice(0,500).join(" ");
+  })
+
 });

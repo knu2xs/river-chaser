@@ -1,6 +1,6 @@
 <div class="row">
 
-  <div class="col-md-6">
+  <div class="col-md-6 reachSearch">
 
     <form onsubmit={{action 'preventSubmit'}}>
        <div class="form-group">
@@ -14,23 +14,27 @@
     </form>
 
     {{#if model}}
-    <table class="table">
-      <tbody>
-      {{#each modelSorted as |reach|}}
-        <tr>
-          <td>
-            {{#link-to 'reach' reach.id}}
-              {{reach.riverName}} - {{reach.name}}
-              {{#if reach.riverAlternateName}}
-                ({{reach.riverAlternateName}})
-              {{/if}}
-              ({{reach.difficulty}})
-            {{/link-to}}
-          </td>
-        </tr>
-      {{/each}}
-      </tbody>
-    </table>
+
+      <div class="reachSearchResults">
+        <table class="table">
+          <tbody>
+          {{#each modelSorted as |reach|}}
+            <tr>
+              <td>
+                {{#link-to 'reach' reach.id}}
+                  {{reach.riverName}} - {{reach.name}}
+                  {{#if reach.riverAlternateName}}
+                    ({{reach.riverAlternateName}})
+                  {{/if}}
+                  ({{reach.difficulty}})
+                {{/link-to}}
+              </td>
+            </tr>
+          {{/each}}
+          </tbody>
+        </table>
+      </div>
+
 
     {{else}}
       <p>

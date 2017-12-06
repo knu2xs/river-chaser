@@ -7,6 +7,14 @@
 /* calcite */
 @import url('/calcite/css/calcite-icons.css');
 
+/*body {*/
+  /*background: url('/images/bg.png') no-repeat center center fixed;*/
+  /*-webkit-background-size: cover;*/
+  /*-moz-background-size: cover;*/
+  /*-o-background-size: cover;*/
+  /*background-size: cover;*/
+/*}*/
+
 h1, h2, h3, h4, h5, h6, nav {
   font-family: 'Eczar', cursive;;
 }
@@ -20,6 +28,15 @@ body {
 .navbar {
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+.reachSearch {
+  height: 800px;
+}
+
+.reachSearchResults {
+  height: 746px;
+  overflow-y: scroll;
 }
 
 .esri-component, .esri-widget {

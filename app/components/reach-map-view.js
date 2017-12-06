@@ -1,5 +1,6 @@
 import Component from '@ember/component';
 import Ember from 'ember';
+import ENV from '../config/environment';
 
 export default Component.extend({
 
@@ -20,21 +21,28 @@ export default Component.extend({
 
     // load the esri modules
     this.get('esriLoader').loadModules(
-      ['esri/views/MapView', 'esri/Map', 'esri/widgets/BasemapGallery', 'esri/widgets/LayerList']
+      ['esri/views/MapView', 'esri/Map', 'esri/widgets/BasemapGallery', 'esri/widgets/LayerList',
+        'esri/layers/FeatureLayer']
     ).then(modules => {
 
       if (this.get('isDestroyed') || this.get('isDestroying')) {
         return;
       }
 
-      const [MapView, Map, BasemapGallery, LayerList] = modules;
+      const [MapView, Map, BasemapGallery, LayerList, FeatureLayer] = modules;
+
+      // create feature layer for points
+      let layerReachPoints = new FeatureLayer({ url: ENV.APP.ARCGIS.POINTS.URL });
 
       // create a new map view
       this._view = new MapView({
 
         // An instance of Map
         map: new Map({
-          basemap: 'dark-gray'
+          basemap: 'dark-gray',
+          layers: [
+            layerReachPoints
+          ]
         }),
 
         // DOM div id
