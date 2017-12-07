@@ -7,6 +7,9 @@ export default Controller.extend({
   queryParams: ['search'],
   search: '',
 
+  // for keeping track of the current reach being hovered over
+  hoverId: '',
+
   // sort the reaches so they appear in logical order
   sortFields: ['riverName:asc', 'name:asc'],
   modelSorted: computed.sort('model', 'sortFields'),

@@ -32,7 +32,10 @@ export default Component.extend({
       const [MapView, Map, BasemapGallery, LayerList, FeatureLayer] = modules;
 
       // create feature layer for points
-      let layerReachPoints = new FeatureLayer({ url: ENV.APP.ARCGIS.POINTS.URL });
+      let layerReachPoints = new FeatureLayer({
+        url: ENV.APP.ARCGIS.POINTS.URL,
+        title: 'Reach Points'
+      });
 
       // create a new map view
       this._view = new MapView({

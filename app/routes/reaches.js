@@ -1,4 +1,5 @@
 import Route from '@ember/routing/route';
+import { computed } from '@ember/object';
 
 // array of fields being queried
 const fieldArray = ['name', 'riverName', 'riverAlternateName'];
@@ -24,10 +25,11 @@ let createQuery = (queryString) => {
 
   // collapse all the individual field query statements into a single statement
   return queryArray.join(' OR ');
-}
+};
 
 export default Route.extend({
 
+  // this ensures the url stays in sync with the search string
   queryParams: {
     search: {
       refreshModel: true
@@ -63,6 +65,11 @@ export default Route.extend({
 
     }
 
-  }
+  },
+
+  // for keeping track of id's from returned reaches, and also the value of the reach being hovered over
+  searchIdArray: computed('model', () => {
+    return this.get('model').map((record) => record.id);
+  })
 
 });
