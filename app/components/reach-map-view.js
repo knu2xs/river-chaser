@@ -34,7 +34,8 @@ export default Component.extend({
       // create feature layer for points
       let layerReachPoints = new FeatureLayer({
         url: ENV.APP.ARCGIS.POINTS.URL,
-        title: 'Reach Points'
+        title: 'Reach Points',
+        visible: false
       });
 
       // if a reachId is provided, apply a definition query
@@ -88,13 +89,16 @@ export default Component.extend({
             easing: 'in-out-expo'
           });
 
+          // now, turn on the reach points
+          layerReachPoints.visible = true;
+
         } else {
 
           // if the user agrees to let us know their location
           if (navigator.geolocation) {
 
-            // zoom to the location helper function
-            let zoomTo = (position) => {
+            // Get the user's current position and go there if supported
+            navigator.geolocation.getCurrentPosition((position) => {
 
               let coordinates = position.coords;
 
@@ -104,13 +108,19 @@ export default Component.extend({
                 easing: 'in-out-expo'
               });
 
-            };
+              // now, turn on the reach points
+              layerReachPoints.visible = true;
 
-            // Get the user's current position and go there if supported
-            navigator.geolocation.getCurrentPosition(zoomTo);
+            });
+
+          } else {
+
+            // now, turn on the reach points
+            layerReachPoints.visible = true;
 
           }
         }
+
       });
     });
   },

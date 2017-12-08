@@ -27,3 +27,6 @@ package.json.ember-try
 
 # apple stuff
 **/*.DS_Store
+
+# settings file
+.env
