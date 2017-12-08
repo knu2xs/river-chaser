@@ -1,9 +1,17 @@
-<h2>Reaches</h2>
-{{#each model as |reach|}}
-<p>
-  {{#link-to 'reach' reach.reachId}}
-    {{reach.riverName}} - {{reach.name}}
-  {{/link-to}}
-</p>
-{{/each}}
+<div class="container">
+<div class="row">
+  <div class="col-sm-12">
+    <h2>Reaches</h2>
+    <ul>
+    {{#each model as |reach|}}
+    <li>
+      {{#link-to 'reach' reach.reachId}}
+        {{reach.riverName}} - {{reach.name}}
+      {{/link-to}}
+    </li>
+    {{/each}}
+  </ul>
+  </div>
+</div>
 {{outlet}}
+</div>

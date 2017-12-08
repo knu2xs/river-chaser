@@ -28,46 +28,75 @@ const makeQueryRequest = (opts) => {
 let retrieveAll = () => {
 
   // retrieve the maximum feature count
-  request(`${urlFeatureLayer}?f=json`, {method: 'GET'})
+  // define some vars we want to access all through this chain
+  let MAX_RECORD_COUNT;
+  let TOTAL_RECORDS;
+  return request(`${urlFeatureLayer}?f=json`, {method: 'GET'})
   .then((respProp) => {
     Ember.debug(`Max Record Count: ${respProp.maxRecordCount}`);
-
+    MAX_RECORD_COUNT = respProp.maxRecordCount;
     // get the feature count
-    makeQueryRequest({returnCountOnly: true})
-    .then((respCnt) => {
-      Ember.debug(`Feature Count: ${respCnt.count}`);
+    return makeQueryRequest({returnCountOnly: true});
+  })
+  .then((respCnt) => {
+    Ember.debug(`Feature Count: ${respCnt.count}`);
+    TOTAL_RECORDS = respCnt.count;
+    // calculate the number of pulls required to get all the data
+    let pullCount = Math.ceil(TOTAL_RECORDS / MAX_RECORD_COUNT);
+    Ember.debug(`Pull Count: ${pullCount}`);
 
-      // calculate the number of pulls required to get all the data
-      let pullCount = Math.ceil(respCnt.count / respProp.maxRecordCount);
-      Ember.debug(`Pull Count: ${pullCount}`);
-
-      // iteratively, in chunks, retrieve all the features
-      let allFeatures = [];
-      for (let i = 0; i < pullCount; i++){
-        let offset = i * respProp.maxRecordCount;
-        let recordCount = respProp.maxRecordCount;
-        allFeatures.push(makeQueryRequest({
-          resultOffset: offset,
-          resultRecordCount: recordCount
-        }));
+    // iteratively, in chunks, retrieve all the features
+    let allFeatures = [];
+    for (let i = 0; i < pullCount; i++){
+      let offset = i * MAX_RECORD_COUNT;
+      let recordCount = MAX_RECORD_COUNT;
+      allFeatures.push(makeQueryRequest({
+        outFields: '*',
+        returnGeometry: false,
+        resultOffset: offset,
+        resultRecordCount: recordCount
+      }));
+    }
+    // We use allSettled vs all b/c all will fail if ANY request fails
+    // where as allSettled will not.
+    return Ember.RSVP.allSettled(allFeatures);
+  })
+  .then((settledPromises) => {
+    // we need to extract the data our of the settled promises...
+    let features = [];
+    // map over the promises
+    settledPromises.map((prms) => {
+      // if it's state is fulfilled...
+      if (prms.state === 'fulfilled') {
+        // concat the features over...
+        features = features.concat(prms.value.features)
       }
-
-      // catcher to get all the promises and send back the results
-      Promise.all(allFeatures).then((allFeatures) => {
-        return allFeatures;
-      });
-
     });
-
-  });
+    // return!
+    return features;
+  })
+  .catch((err) => {
+    Ember.debug(`Caught error ${err}`);
+  })
 
 }
 
 export default DS.JSONAPIAdapter.extend({
 
   findAll: function(store) {
+    return retrieveAll()
+    .then((features) => {
+      let reaches = features.map((f) => {
+        return {
+          type: "reaches",
+          id: f.attributes['reachId'],
+          attributes: f.attributes
+        }
+      });
 
-    return retrieveAll();
+      store.pushPayload('reaches', {data: reaches});
+      return reaches;
+    })
 
     // let opts = Ember.$.param({
     //   where: '1=1',

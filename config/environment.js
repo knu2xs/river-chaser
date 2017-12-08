@@ -3,7 +3,7 @@
 
 module.exports = function(environment) {
   let ENV = {
-    modulePrefix: 'river-chaser',
+    modulePrefix: 'whitewater-mapping',
     environment,
     rootURL: '/',
     locationType: 'auto',
