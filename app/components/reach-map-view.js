@@ -38,7 +38,7 @@ export default Component.extend({
       });
 
       // if a reachId is provided, apply a definition query
-      if (this.get('reachId')){
+      if (this.get('reachId')) {
         layerReachPoints.definitionExpression = `reachId = '${this.get('reachId')}'`;
       }
 
@@ -85,17 +85,33 @@ export default Component.extend({
           this._view.goTo({
             center: [X, Y],
             zoom: 8,
-            duration: 300000,
             easing: 'in-out-expo'
           });
 
         } else {
 
-          Ember.debug('no reachId provided for map view component');
+          // if the user agrees to let us know their location
+          if (navigator.geolocation) {
 
+            // zoom to the location helper function
+            let zoomTo = (position) => {
+
+              let coordinates = position.coords;
+
+              this._view.goTo({
+                center: [coordinates.longitude, coordinates.latitude],
+                zoom: 8,
+                easing: 'in-out-expo'
+              });
+
+            };
+
+            // Get the user's current position and go there if supported
+            navigator.geolocation.getCurrentPosition(zoomTo);
+
+          }
         }
-
-      })
+      });
     });
   },
 
