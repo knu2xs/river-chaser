@@ -2,10 +2,20 @@
 @import url('https://js.arcgis.com/4.5/esri/themes/light/main.css');
 
 /* google fonts */
-@import url('https://fonts.googleapis.com/css?family=Eczar|Work+Sans:400,700');
+@import url('https://fonts.googleapis.com/css?family=Raleway:500,500i,700,700i');
 
 /* calcite */
 @import url('/calcite/css/calcite-icons.css');
+
+/* font imports */
+@font-face{
+  font-family: 'Harting';
+  src: url('/fonts/Harting/Harting_plain-webfont.eot');
+  src: url('/fonts/Harting/Harting_plain-webfont.eot?#iefix') format('embedded-opentype'),
+  url('/fonts/Harting/Harting_plain-webfont.woff') format('woff'),
+  url('/fonts/Harting/Harting_plain-webfont.ttf') format('truetype'),
+  url('/fonts/Harting/Harting_plain-webfont.svg#webfont') format('svg');
+}
 
 /*body {*/
   /*background: url('/images/bg.png') no-repeat center center fixed;*/
@@ -16,17 +26,24 @@
 /*}*/
 
 h1, h2, h3, h4, h5, h6, nav {
-  font-family: 'Eczar', cursive;;
+  font-family: 'Harting', serif;
+  text-shadow: 1px 1px 2px #363636;
+}
+
+.navbar, .navbar-brand {
+  font-size: 120%;
 }
 
 body {
-  font-family: 'Work Sans', serif;
-  padding-top: 20px;
-  padding-bottom: 20px;
+  font-family: 'Raleway', sans-serif;
+}
+
+.navtab-content {
+  margin-top: 12px;
 }
 
 .navbar {
-  margin-top: 20px;
+  margin-top: 15px;
   margin-bottom: 20px;
 }
 

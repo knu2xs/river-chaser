@@ -37,22 +37,29 @@ export default Component.extend({
         title: 'Reach Points'
       });
 
-      // create a new map view
+      // if a reachId is provided, apply a definition query
+      if (this.get('reachId')){
+        layerReachPoints.definitionExpression = `reachId = '${this.get('reachId')}'`;
+      }
+
+      // create a map object
+      this.map = new Map({
+        basemap: 'dark-gray',
+        layers: [
+          layerReachPoints
+        ]
+      });
+
+      // create a new map view centered on the conterminous United States by default
       this._view = new MapView({
 
-        // An instance of Map
-        map: new Map({
-          basemap: 'dark-gray',
-          layers: [
-            layerReachPoints
-          ]
-        }),
+        map: this.map,
 
         // DOM div id
         container: this._mapDivId,
 
         // Meades Ranch, KS
-        center: [-98.5422, 39.2241],
+        center: [-98.5422, 39.2241],  // TODO: Change this to extent of conterminous so different aspect ratios render
         zoom: 5
 
       });
@@ -68,16 +75,25 @@ export default Component.extend({
           view: this._view
         });
 
-        // TODO: get location from browser
-        // for right now, use the coordinates of Olympia as the zoomto location
-        let X = -122.9007;
-        let Y = 47.0379;
-        this._view.goTo({
-          center: [X, Y],
-          zoom: 8,
-          duration: 300000,
-          easing: 'in-out-expo'
-        });
+        // if a reachId is provided
+        if (this.get('reachId')) {
+
+          // TODO: get location from browser
+          // for right now, use the coordinates of Olympia as the zoomto location
+          let X = -122.9007;
+          let Y = 47.0379;
+          this._view.goTo({
+            center: [X, Y],
+            zoom: 8,
+            duration: 300000,
+            easing: 'in-out-expo'
+          });
+
+        } else {
+
+          Ember.debug('no reachId provided for map view component');
+
+        }
 
       })
     });
@@ -87,18 +103,18 @@ export default Component.extend({
   _layerlistWidgetVisible: false,
   _fullscreen: false,
 
-  _removeBasemapWidget: function() {
+  _removeBasemapWidget: function () {
     this._view.ui.remove(this._basemapWidget);
     this._basemapWidgetVisible = false;
   },
-  _removeLayerlistWidget: function() {
+  _removeLayerlistWidget: function () {
     this._view.ui.remove(this._layerlistWidget);
     this._layerlistWidgetVisible = false;
   },
 
   actions: {
 
-    toggleBasemap: function() {
+    toggleBasemap: function () {
       if (!this._basemapWidgetVisible) {
         this._removeLayerlistWidget();
         this._view.ui.add(this._basemapWidget, {
@@ -110,7 +126,7 @@ export default Component.extend({
       }
     },
 
-    toggleLayerlist: function(){
+    toggleLayerlist: function () {
       if (!this._layerlistWidgetVisible) {
         this._removeBasemapWidget();
         this._view.ui.add(this._layerlistWidget, {
@@ -122,7 +138,7 @@ export default Component.extend({
       }
     },
 
-    mapFullscreen: function(){
+    mapFullscreen: function () {
       if (!this._fullscreen) {
         let elem = document.getElementById('esriReachView');
         if (elem.requestFullscreen) {
@@ -140,7 +156,7 @@ export default Component.extend({
         }
 
       } else {
-        if (document.exitFullscreen){
+        if (document.exitFullscreen) {
           document.exitFullscreen();
           this._fullscreen = false;
         } else if (document.msExitFullscreen) {
@@ -149,7 +165,7 @@ export default Component.extend({
         } else if (document.mozCancelFullScreen) {
           document.mozCancelFullScreen();
           this._fullscreen = false;
-        } else if (document.webkitExitFullscreen){
+        } else if (document.webkitExitFullscreen) {
           document.webkitExitFullscreen();
           this._fullscreen = false;
         }

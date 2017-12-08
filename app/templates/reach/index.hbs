@@ -1,4 +1,5 @@
-<h3>Overview</h3>
+<div class="navtab-content">
+  <h3>Overview</h3>
 
   {{#unless model.abstract}}
     <p>
@@ -6,8 +7,14 @@
     </p>
   {{else}}
     <p>
-      {{model.description500}}
+      {{format-markdown model.description500}}
+      {{#if model.description}}
+        {{#link-to 'reach.detail' model.id}}&lt;read more&gt;{{/link-to}}
+      {{/if}}
     </p>
   {{/unless}}
 
-{{outlet}}
+  {{outlet}}
+</div>
+
+

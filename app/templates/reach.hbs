@@ -1,9 +1,3 @@
-{{#if model.error}}
-  <div class="alert alert-danger" role="alert">
-    Error: {{model.notes}}
-  </div>
-{{/if}}
-
 <h2>{{model.riverName}}<br/>
   <small>{{model.name}}
   {{#if model.riverAlternateName}}
@@ -13,6 +7,12 @@
   {{model.difficulty}}
   </small>
 </h2>
+
+{{#if model.error}}
+  <div class="alert alert-danger" role="alert">
+    Error: {{model.notes}}
+  </div>
+{{/if}}
 
 {{#bs-nav type='tabs' as |nav|}}
 

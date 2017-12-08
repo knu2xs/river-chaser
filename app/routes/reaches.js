@@ -14,12 +14,7 @@ let createQuery = (queryString) => {
   // create all permutations of fields and words into a single array
   let queryArray = [];
   for (let i=0; i < fieldArray.length; i++) {
-
-    let wordQueryArray = [];
-    for (let j=0; j < queryStringArray.length; j++){
-      let wordQuery = `${fieldArray[i]} LIKE '%${queryStringArray[j]}%'`
-      wordQueryArray.push(wordQuery);
-    }
+    let wordQueryArray =queryStringArray.map((thisQuery) => `${fieldArray[i]} LIKE '%${thisQuery}%'`);
     queryArray.push('(' + wordQueryArray.join(' AND ') + ')');
   }
 
@@ -67,9 +62,8 @@ export default Route.extend({
 
   },
 
-  // for keeping track of id's from returned reaches, and also the value of the reach being hovered over
-  searchIdArray: computed('model', () => {
-    return this.get('model').map((record) => record.id);
+  reachIdArray: computed('model', function() {
+    return this.modelFor('reaches').map((record) => record.get('reachId'));
   })
 
 });

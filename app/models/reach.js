@@ -19,10 +19,8 @@ export default DS.Model.extend({
   description: DS.attr('string'),
 
   // computed properties
-  description500: computed('description', () => {
-    let short = this.get('description').split(" ").splice(0,500).join(" ");
-    console.log(short);
-    return this.get('description').split(" ").splice(0,500).join(" ");
+  description500: computed('description', function() {
+    return this.get('description').split(' ').splice(0,100).join(' ') + '...';
   })
 
 });
