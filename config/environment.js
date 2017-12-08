@@ -22,6 +22,9 @@ module.exports = function(environment) {
       ARCGIS: {
         POINTS: {
           URL: 'https://services5.arcgis.com/12oODIpfxlRR11MF/arcgis/rest/services/rch_cntrds/FeatureServer/0'
+        },
+        RADAR: {
+          URL: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer'
         }
       }
       // Here you can pass flags/options to your application instance

@@ -22,20 +22,41 @@ export default Component.extend({
     // load the esri modules
     this.get('esriLoader').loadModules(
       ['esri/views/MapView', 'esri/Map', 'esri/widgets/BasemapGallery', 'esri/widgets/LayerList',
-        'esri/layers/FeatureLayer']
+        'esri/layers/FeatureLayer', 'esri/layers/MapImageLayer', 'esri/layers/GroupLayer']
     ).then(modules => {
 
       if (this.get('isDestroyed') || this.get('isDestroying')) {
         return;
       }
 
-      const [MapView, Map, BasemapGallery, LayerList, FeatureLayer] = modules;
+      const [MapView, Map, BasemapGallery, LayerList, FeatureLayer, MapImageLayer, GroupLayer] = modules;
 
-      // create feature layer for points
+      // create feature layer for reach points and lines, and add them both to a group layer
       let layerReachPoints = new FeatureLayer({
         url: ENV.APP.ARCGIS.POINTS.URL,
         title: 'Reach Points',
-        visible: false
+        visible: true
+      });
+      let groupLayerReach = new GroupLayer({
+        title: 'River Reaches',
+        visible: false,
+        visibilityMode: 'exclusive',
+        layers: [
+          layerReachPoints
+        ]
+      });
+
+      // create precipitation layers and create a group layer for these layers
+      let layerRadar = new MapImageLayer({
+        url: ENV.APP.ARCGIS.RADAR.URL,
+        title: 'NOAA NEXRad Radar'
+      });
+      let groupLayerPrecip = new GroupLayer({
+        title: "Precipitation",
+        visible: false,
+        visibilityMode: "exclusive",
+        layers: [layerRadar],
+        opacity: 0.75
       });
 
       // if a reachId is provided, apply a definition query
@@ -47,7 +68,8 @@ export default Component.extend({
       this.map = new Map({
         basemap: 'dark-gray',
         layers: [
-          layerReachPoints
+          groupLayerPrecip,
+          groupLayerReach
         ]
       });
 
@@ -90,7 +112,7 @@ export default Component.extend({
           });
 
           // now, turn on the reach points
-          layerReachPoints.visible = true;
+          groupLayerReach.visible = true;
 
         } else {
 
@@ -109,14 +131,14 @@ export default Component.extend({
               });
 
               // now, turn on the reach points
-              layerReachPoints.visible = true;
+              groupLayerReach.visible = true;
 
             });
 
           } else {
 
             // now, turn on the reach points
-            layerReachPoints.visible = true;
+            groupLayerReach.visible = true;
 
           }
         }
