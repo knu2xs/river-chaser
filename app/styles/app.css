@@ -87,6 +87,10 @@ body {
   z-index: 10;
 }
 
+#mapControls>button, #mapControls>div>button{
+  cursor: pointer;
+}
+
 .esri-ui-top-left {
   padding-top: 45px;
 }

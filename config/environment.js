@@ -21,10 +21,18 @@ module.exports = function(environment) {
     APP: {
       ARCGIS: {
         POINTS: {
-          URL: 'https://services5.arcgis.com/12oODIpfxlRR11MF/arcgis/rest/services/rch_cntrds/FeatureServer/0'
+          URL: 'https://services8.arcgis.com/jZGmCLss78drBhAC/arcgis/rest/services/Reach_Centroids/FeatureServer/0'
+        },
+        LINES: {
+          URL: 'https://services8.arcgis.com/jZGmCLss78drBhAC/arcgis/rest/services/Reach_Lines/FeatureServer/0'
         },
         RADAR: {
           URL: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/radar_meteo_imagery_nexrad_time/MapServer'
+        },
+        QPF: {
+          AMOUNT: {
+            URL6: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/forecast_meteoceanhydro_sfc_ndfd_qpf6hrs_offsets/MapServer/0'
+          }
         }
       }
       // Here you can pass flags/options to your application instance

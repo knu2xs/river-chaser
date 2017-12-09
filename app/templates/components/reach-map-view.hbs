@@ -12,18 +12,20 @@
 
             <!--TODO: set active status for buttons-->
             {{#bs-button
-              type="default"
-              value="Basemap"
-              onClick=(action "toggleBasemap")
+              id='btn-basemap'
+              type='default'
+              value='Basemap'
+              onClick=(action 'toggleBasemap')
             }}
               <i class="icon-ui-basemap"></i>
               <span class="d-none d-md-inline">Basemap</span>
             {{/bs-button}}
 
             {{#bs-button
-              type="default"
-              value="Layers"
-              onClick=(action "toggleLayerlist")
+              id='btn-layers'
+              type='default'
+              value='Layers'
+              onClick=(action 'toggleLayerlist')
             }}
               <i class="icon-ui-layers"></i>
               <span class="d-none d-md-inline">Layers</span>
@@ -32,9 +34,11 @@
           {{/bs-button-group}}
 
           {{#bs-button
-            onClick=(action "mapFullscreen")
+            id='btn-fullscreen'
+            type='default'
+            onClick=(action 'mapFullscreen')
           }}
-            <i class="icon-ui-zoom-out-fixed"></i>
+            <i id="btn-icon-fullscreen" class="icon-ui-zoom-out-fixed"></i>
             <span class="d-none d-md-inline">Fullscreen</span>
           {{/bs-button}}
 

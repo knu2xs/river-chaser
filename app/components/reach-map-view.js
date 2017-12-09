@@ -22,14 +22,17 @@ export default Component.extend({
     // load the esri modules
     this.get('esriLoader').loadModules(
       ['esri/views/MapView', 'esri/Map', 'esri/widgets/BasemapGallery', 'esri/widgets/LayerList',
-        'esri/layers/FeatureLayer', 'esri/layers/MapImageLayer', 'esri/layers/GroupLayer']
+        'esri/layers/FeatureLayer', 'esri/layers/BaseDynamicLayer', 'esri/layers/MapImageLayer',
+        'esri/layers/GroupLayer']
     ).then(modules => {
 
+      // although I left this in...I have no freaking clue what the heck it does
       if (this.get('isDestroyed') || this.get('isDestroying')) {
         return;
       }
 
-      const [MapView, Map, BasemapGallery, LayerList, FeatureLayer, MapImageLayer, GroupLayer] = modules;
+      const [MapView, Map, BasemapGallery, LayerList, FeatureLayer, BaseDynamicLayer, MapImageLayer,
+        GroupLayer] = modules;
 
       // create feature layer for reach points and lines, and add them both to a group layer
       let layerReachPoints = new FeatureLayer({
@@ -37,11 +40,17 @@ export default Component.extend({
         title: 'Reach Points',
         visible: true
       });
+      let layerReachLines = new FeatureLayer({
+        url: ENV.APP.ARCGIS.LINES.URL,
+        title: 'Reach Lines',
+        visible: false
+      });
       let groupLayerReach = new GroupLayer({
         title: 'River Reaches',
         visible: false,
         visibilityMode: 'exclusive',
         layers: [
+          layerReachLines,
           layerReachPoints
         ]
       });
@@ -51,12 +60,19 @@ export default Component.extend({
         url: ENV.APP.ARCGIS.RADAR.URL,
         title: 'NOAA NEXRad Radar'
       });
+      let layerQpfAmount6 = new MapImageLayer({
+        url: ENV.APP.ARCGIS.QPF.AMOUNT.URL6,
+        title: 'QPF Amount - 6 Hours'
+      });
       let groupLayerPrecip = new GroupLayer({
-        title: "Precipitation",
+        title: 'Precipitation',
         visible: false,
-        visibilityMode: "exclusive",
-        layers: [layerRadar],
-        opacity: 0.75
+        visibilityMode: 'exclusive',
+        layers: [
+          layerQpfAmount6,
+          layerRadar
+        ],
+        opacity: 0.5
       });
 
       // if a reachId is provided, apply a definition query
@@ -101,7 +117,6 @@ export default Component.extend({
         // if a reachId is provided
         if (this.get('reachId')) {
 
-          // TODO: get location from browser
           // for right now, use the coordinates of Olympia as the zoomto location
           let X = -122.9007;
           let Y = 47.0379;
@@ -187,8 +202,8 @@ export default Component.extend({
     },
 
     mapFullscreen: function () {
+      let elem = document.getElementById('esriReachView');
       if (!this._fullscreen) {
-        let elem = document.getElementById('esriReachView');
         if (elem.requestFullscreen) {
           elem.requestFullscreen();
           this._fullscreen = true;
@@ -218,7 +233,12 @@ export default Component.extend({
           this._fullscreen = false;
         }
       }
-      //TODO: change status or remove fullscreen button when in fullscreen mode
+
+      // change appearance of button to reflect status
+      Ember.$('#btn-icon-fullscreen').toggleClass('icon-ui-zoom-in-fixed');
+      Ember.$('#btn-icon-fullscreen').toggleClass('icon-ui-zoom-out-fixed');
+      Ember.$('#btn-fullscreen').toggleClass('btn-default');
+      Ember.$('#btn-fullscreen').toggleClass('btn-primary');
     }
 
   },
