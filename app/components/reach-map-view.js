@@ -15,7 +15,7 @@ export default Component.extend({
   // TODO: Publish and add both vector tile and feature services for reaches
 
   // once we have a DOM node to attach the map to...
-  didInsertElement() {
+  didInsertElement: function () {
 
     this._super(...arguments);
 
@@ -23,7 +23,7 @@ export default Component.extend({
     this.get('esriLoader').loadModules(
       ['esri/views/MapView', 'esri/Map', 'esri/widgets/BasemapGallery', 'esri/widgets/LayerList',
         'esri/layers/FeatureLayer', 'esri/layers/BaseDynamicLayer', 'esri/layers/MapImageLayer',
-        'esri/layers/GroupLayer']
+        'esri/layers/GroupLayer', 'esri/geometry/Extent']
     ).then(modules => {
 
       // although I left this in...I have no freaking clue what the heck it does
@@ -32,7 +32,7 @@ export default Component.extend({
       }
 
       const [MapView, Map, BasemapGallery, LayerList, FeatureLayer, BaseDynamicLayer, MapImageLayer,
-        GroupLayer] = modules;
+        GroupLayer, Extent] = modules;
 
       // create feature layer for reach points and lines, and add them both to a group layer
       let layerReachPoints = new FeatureLayer({
@@ -98,9 +98,17 @@ export default Component.extend({
         // DOM div id
         container: this._mapDivId,
 
+        // zoom to the extent of the conterminous United States
+        extent: new Extent({
+          xmin: -125.419921875,
+          ymin: 24.686952412,
+          xmax: -64.355492,
+          ymax: 49.4966745275
+        }),
+
         // Meades Ranch, KS
-        center: [-98.5422, 39.2241],  // TODO: Change this to extent of conterminous so different aspect ratios render
-        zoom: 5
+        // center: [-98.5422, 39.2241],  // TODO: Change this to extent of conterminous so different aspect ratios render
+        // zoom: 5
 
       });
 
@@ -109,8 +117,8 @@ export default Component.extend({
 
         // create some widgets
         this._widgets = {
-          basemap: new BasemapGallery({ view: this._view }),
-          layerList: new LayerList({ view: this._view })
+          basemap: new BasemapGallery({view: this._view}),
+          layerList: new LayerList({view: this._view})
         };
 
         // provide a way to zoom to a layer
@@ -127,14 +135,10 @@ export default Component.extend({
                 layerView.queryExtent().then((response) => {
 
                   // go to the extent of all the graphics in the layer mapView
-                  this._view.goTo(response.extent).then((viewAnimation) => {
+                  this._view.goTo(response.extent);
 
-                    // since it may times zooms in too far, zoom back one step
-                    this._view.goTo({zoom: this._view.zoom - 1});
-
-                  });
-                });  // close queryExtent
-              }  // close if(!val)
+                }); // close queryExtent
+              } // close if(!val)
             });  // close layerView.watch
           });  // close when layerView
         };
@@ -146,7 +150,7 @@ export default Component.extend({
 
           // now, turn on the reach points
           groupLayerReach.visible = true;
-          layerReachLines.visible= true;
+          layerReachLines.visible = true;
 
         } else {
 
@@ -160,8 +164,7 @@ export default Component.extend({
 
               this._view.goTo({
                 center: [coordinates.longitude, coordinates.latitude],
-                zoom: 8,
-                easing: 'in-out-expo'
+                zoom: 8
               });
 
               // now, turn on the reach points
@@ -184,29 +187,36 @@ export default Component.extend({
   _activeControl: null,
   _fullscreen: false,
 
-  _toggleMapWidgets: function(controlName){
-
-    if (controlName === 'basemap' && this._activeControl !== 'basemap') {
-      this._view.ui.remove(this._widgets.layerList);
-      this._view.ui.add(this._widgets.basemap, { position: 'top-right' });
-      this._activeControl = controlName;
-
-    } else if (controlName === 'layerList' && this._activeControl !== 'layerList') {
-      this._view.ui.remove(this._widgets.basemap);
-      this._view.ui.add(this._widgets.layerList, {position: "top-right"});
-      this._activeControl = controlName;
-
-    } else {
-      this._view.ui.remove(this._widgets.basemap);
-      this._view.ui.remove(this._widgets.layerList);
-      this._activeControl = null;
-    }
-  },
-
   actions: {
 
     toggleWidget: function (controlName) {
-      this._toggleMapWidgets(controlName);
+      if (controlName === 'basemap' && this._activeControl !== 'basemap') {
+        this._view.ui.remove(this._widgets.layerList);
+        Ember.$('#btn-layerList').removeClass('btn-primary');
+        Ember.$('#btn-layerList').addClass('btn-default');
+        this._view.ui.add(this._widgets.basemap, {position: 'top-right'});
+        Ember.$('#btn-basemap').removeClass('btn-default');
+        Ember.$('#btn-basemap').addClass('btn-primary');
+        this._activeControl = controlName;
+
+      } else if (controlName === 'layerList' && this._activeControl !== 'layerList') {
+        this._view.ui.remove(this._widgets.basemap);
+        Ember.$('#btn-basemap').removeClass('btn-primary');
+        Ember.$('#btn-basemap').addClass('btn-default');
+        this._view.ui.add(this._widgets.layerList, {position: "top-right"});
+        Ember.$('#btn-layerList').removeClass('btn-default');
+        Ember.$('#btn-layerList').addClass('btn-primary');
+        this._activeControl = controlName;
+
+      } else {
+        this._view.ui.remove(this._widgets.basemap);
+        Ember.$('#btn-basemap').removeClass('btn-primary');
+        Ember.$('#btn-basemap').addClass('btn-default');
+        this._view.ui.remove(this._widgets.layerList);
+        Ember.$('#btn-layerList').removeClass('btn-primary');
+        Ember.$('#btn-layerList').addClass('btn-default');
+        this._activeControl = null;
+      }
     },
 
     mapFullscreen: function () {
