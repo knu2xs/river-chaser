@@ -78,6 +78,7 @@ export default Component.extend({
       // if a reachId is provided, apply a definition query
       if (this.get('reachId')) {
         layerReachPoints.definitionExpression = `reachId = '${this.get('reachId')}'`;
+        layerReachLines.definitionExpression = `reachId = '${this.get('reachId')}'`;
       }
 
       // create a map object
@@ -112,20 +113,37 @@ export default Component.extend({
           layerList: new LayerList({ view: this._view })
         };
 
+        // provide a way to zoom to a layer
+        this._zoomToLayer = (layer) => {
+
+          // access the layerView of the layer
+          this._view.whenLayerView(layer).then((layerView) => {
+
+            // wait for the layerView ot finish updating...if it is
+            layerView.watch('updating', (val) => {
+              if (!val) {
+
+                // now, get the extent of features in the layerView
+                layerView.queryExtent().then((response) => {
+
+
+                  // go to the extent of all the graphics in the layer mapView
+                  this._view.goTo(response.extent);
+
+                });  // close queryExtent
+              }  // close if(!val)
+            });  // close layerView.watch
+          });  // close when layerView
+        };
+
         // if a reachId is provided
         if (this.get('reachId')) {
 
-          // for right now, use the coordinates of Olympia as the zoomto location
-          let X = -122.9007;
-          let Y = 47.0379;
-          this._view.goTo({
-            center: [X, Y],
-            zoom: 8,
-            easing: 'in-out-expo'
-          });
+          this._zoomToLayer(layerReachLines);
 
           // now, turn on the reach points
           groupLayerReach.visible = true;
+          layerReachLines.visible= true;
 
         } else {
 
