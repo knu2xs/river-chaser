@@ -107,12 +107,10 @@ export default Component.extend({
       this._view.then(() => {
 
         // create some widgets
-        this._basemapWidget = new BasemapGallery({
-          view: this._view
-        });
-        this._layerlistWidget = new LayerList({
-          view: this._view
-        });
+        this._widgets = {
+          basemap: new BasemapGallery({ view: this._view }),
+          layerList: new LayerList({ view: this._view })
+        };
 
         // if a reachId is provided
         if (this.get('reachId')) {
@@ -162,43 +160,32 @@ export default Component.extend({
     });
   },
 
-  _basemapWidgetVisible: false,
-  _layerlistWidgetVisible: false,
+  _activeControl: null,
   _fullscreen: false,
 
-  _removeBasemapWidget: function () {
-    this._view.ui.remove(this._basemapWidget);
-    this._basemapWidgetVisible = false;
-  },
-  _removeLayerlistWidget: function () {
-    this._view.ui.remove(this._layerlistWidget);
-    this._layerlistWidgetVisible = false;
+  _toggleMapWidgets: function(controlName){
+
+    if (controlName === 'basemap' && this._activeControl !== 'basemap') {
+      this._view.ui.remove(this._widgets.layerList);
+      this._view.ui.add(this._widgets.basemap, { position: 'top-right' });
+      this._activeControl = controlName;
+
+    } else if (controlName === 'layerList' && this._activeControl !== 'layerList') {
+      this._view.ui.remove(this._widgets.basemap);
+      this._view.ui.add(this._widgets.layerList, {position: "top-right"});
+      this._activeControl = controlName;
+
+    } else {
+      this._view.ui.remove(this._widgets.basemap);
+      this._view.ui.remove(this._widgets.layerList);
+      this._activeControl = null;
+    }
   },
 
   actions: {
 
-    toggleBasemap: function () {
-      if (!this._basemapWidgetVisible) {
-        this._removeLayerlistWidget();
-        this._view.ui.add(this._basemapWidget, {
-          position: 'top-right'
-        });
-        this._basemapWidgetVisible = true;
-      } else {
-        this._removeBasemapWidget();
-      }
-    },
-
-    toggleLayerlist: function () {
-      if (!this._layerlistWidgetVisible) {
-        this._removeBasemapWidget();
-        this._view.ui.add(this._layerlistWidget, {
-          position: 'top-right'
-        });
-        this._layerlistWidgetVisible = true;
-      } else {
-        this._removeLayerlistWidget();
-      }
+    toggleWidget: function (controlName) {
+      this._toggleMapWidgets(controlName);
     },
 
     mapFullscreen: function () {
