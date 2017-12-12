@@ -127,15 +127,23 @@ export default Component.extend({
           // access the layerView of the layer
           this._view.whenLayerView(layer).then((layerView) => {
 
+            // variable to prevent re-zooming after first load of map
+            this._firstLoad = true;
+
             // wait for the layerView ot finish updating...if it is
             layerView.watch('updating', (val) => {
-              if (!val) {
+              if (!val && this._firstLoad) {
+
+                // change the firstload flag
+                this._firstLoad = false;
 
                 // now, get the extent of features in the layerView
-                layerView.queryExtent().then((response) => {
+                layerView.queryExtent().then((resp) => {
 
-                  // go to the extent of all the graphics in the layer mapView
-                  this._view.goTo(response.extent);
+                  // go to the extent of all the graphics in the layer mapView, and then back out one zoom level
+                  this._view.goTo(resp.extent).then(() => {
+                    this._view.zoom = this._view.zoom - 1;
+                  });
 
                 }); // close queryExtent
               } // close if(!val)
@@ -190,6 +198,7 @@ export default Component.extend({
   actions: {
 
     toggleWidget: function (controlName) {
+
       if (controlName === 'basemap' && this._activeControl !== 'basemap') {
         this._view.ui.remove(this._widgets.layerList);
         Ember.$('#btn-layerList').removeClass('btn-primary');

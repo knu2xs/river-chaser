@@ -1,10 +1,10 @@
 <h2>{{model.riverName}}<br/>
   <small>{{model.name}}
-  {{#if model.riverAlternateName}}
-    ({{model.riverAlternateName}})
-  {{/if}}
-  <br/>
-  {{model.difficulty}}
+    {{#if model.riverAlternateName}}
+      ({{model.riverAlternateName}})
+    {{/if}}
+    <br/>
+    {{model.difficulty}}
   </small>
 </h2>
 
@@ -28,12 +28,10 @@
     {{/nav.link-to}}{{/nav.item}}
   {{/unless}}
 
-  {{#unless reach.detail}}
-    {{#nav.item}}{{#nav.link-to 'reach.detail'}}
-      <i class="icon-ui-documentation"></i>
-      <span class="d-none d-md-inline">Detail</span>
-    {{/nav.link-to}}{{/nav.item}}
-  {{/unless}}
+  {{#nav.item}}{{#nav.link-to 'reach.detail'}}
+    <i class="icon-ui-documentation"></i>
+    <span class="d-none d-md-inline">Detail</span>
+  {{/nav.link-to}}{{/nav.item}}
 
 {{/bs-nav}}
 {{outlet}}

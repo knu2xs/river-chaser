@@ -1,18 +1,19 @@
 <div class="navtab-content">
   <h3>Overview</h3>
 
-  {{#unless model.abstract}}
+  {{#if model.abstract}}
     <p>
       {{model.abstract}}
     </p>
   {{else}}
     <p>
-      {{format-markdown model.description500}}
-      {{#if model.description}}
-        {{#link-to 'reach.detail' model.id}}&lt;read more&gt;{{/link-to}}
+      {{#if model.longDescription}}
+        {{format-markdown model.description100}} {{#link-to 'reach.detail' model.id}}&lt;read more&gt;{{/link-to}}
+      {{else}}
+        {{format-markdown model.description}}
       {{/if}}
     </p>
-  {{/unless}}
+  {{/if}}
 
   {{outlet}}
 </div>
