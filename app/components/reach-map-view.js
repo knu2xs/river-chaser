@@ -126,10 +126,13 @@ export default Component.extend({
                 // now, get the extent of features in the layerView
                 layerView.queryExtent().then((response) => {
 
-
                   // go to the extent of all the graphics in the layer mapView
-                  this._view.goTo(response.extent);
+                  this._view.goTo(response.extent).then((viewAnimation) => {
 
+                    // since it may times zooms in too far, zoom back one step
+                    this._view.goTo({zoom: this._view.zoom - 1});
+
+                  });
                 });  // close queryExtent
               }  // close if(!val)
             });  // close layerView.watch
