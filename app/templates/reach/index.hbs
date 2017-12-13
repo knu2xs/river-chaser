@@ -7,13 +7,20 @@
     </p>
   {{else}}
     <p>
-      {{#if model.longDescription}}
+      {{#if model.showDescription100}}
         {{format-markdown model.description100}} {{#link-to 'reach.detail' model.id}}&lt;read more&gt;{{/link-to}}
       {{else}}
         {{format-markdown model.description}}
       {{/if}}
     </p>
   {{/if}}
+
+  <h3>Navigation</h3>
+  <ul>
+    <li><a href="{{model.navPutin}}" target="_blank">to the put-in</a></li>
+    <li><a href="{{model.navTakeout}}" target="_blank">to the take-out</a></li>
+    <li><a href="{{model.navShuttle}}" target="_blank">for the shuttle</a></li>
+  </ul>
 
   {{outlet}}
 </div>

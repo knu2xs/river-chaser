@@ -28,10 +28,12 @@
     {{/nav.link-to}}{{/nav.item}}
   {{/unless}}
 
-  {{#nav.item}}{{#nav.link-to 'reach.detail'}}
-    <i class="icon-ui-documentation"></i>
-    <span class="d-none d-md-inline">Detail</span>
-  {{/nav.link-to}}{{/nav.item}}
+  {{#if model.showDetails}}
+    {{#nav.item}}{{#nav.link-to 'reach.detail'}}
+      <i class="icon-ui-documentation"></i>
+      <span class="d-none d-md-inline">Detail</span>
+    {{/nav.link-to}}{{/nav.item}}
+  {{/if}}
 
 {{/bs-nav}}
 {{outlet}}
