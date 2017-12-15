@@ -31,7 +31,7 @@ module.exports = function(environment) {
         },
         QPF: {
           AMOUNT: {
-            URL6: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/forecast_meteoceanhydro_sfc_ndfd_qpf6hrs_offsets/MapServer/0'
+            URL6: 'https://nowcoast.noaa.gov/arcgis/rest/services/nowcoast/forecast_meteoceanhydro_sfc_ndfd_qpf6hrs_offsets/MapServer'
           }
         }
       }
