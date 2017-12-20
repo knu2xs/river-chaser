@@ -1,5 +1,5 @@
 import DS from 'ember-data';
-
+import Ember from 'ember';
 const uidField = 'reachId';
 
 const normalizeRecord = (record) => {
@@ -7,7 +7,7 @@ const normalizeRecord = (record) => {
   return {
       type: "reaches",
       id: record.attributes[uidField],
-      "attributes": record.attributes
+      attributes: record.attributes
     }
 
 };
@@ -20,7 +20,7 @@ export default DS.JSONAPISerializer.extend({
 
   normalizeResponse (store, primaryModelClass, payload, id, requestType) {
     payload = {
-      data: payload.features.map((record) => normalizeRecord(record))
+      data: payload
     };
     return this._super(store, primaryModelClass, payload, id, requestType);
   },
